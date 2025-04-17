@@ -13,7 +13,13 @@ return new class extends Migration
     {
         Schema::create('messages', function (Blueprint $table) {
             $table->id();
+            $table->date('date');
+            $table->unsignedBigInteger('idUser');
+            $table->string('text'); // Texto até 255 caracteres.
             $table->timestamps();
+
+            // Fazer a relação entre as duas tabelas:
+            $table->foreign('idUser')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -17,6 +18,9 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
+            'date' => fake()->date(), // Data Fictícia
+            'idUser' => User::pluck('id')->random(), // User Aleatório
+            'text' => fake()->text(255) // Texto Fictício até 255 caracteres
             //
         ];
     }
