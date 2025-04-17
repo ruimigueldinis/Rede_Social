@@ -14,6 +14,7 @@
                     <h3> Welcome {{ Auth::user()->name }}!</h3>
                 </div>
             </div>
+            
         </div>
     </div>
 </x-app-layout>
