@@ -9,4 +9,17 @@ class Message extends Model
 {
     /** @use HasFactory<\Database\Factories\MessageFactory> */
     use HasFactory;
+    protected $fillable = [
+        'date',
+        'idUser',
+        'text'
+    ];
+
+    //Adicionar relacionamentos, como associar uma Mensagem a um User!
+
+    public function user()
+    {
+        return $this->belongsTo(User::class,'idUser');
+    }
+
 }
