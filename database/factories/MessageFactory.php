@@ -18,7 +18,7 @@ class MessageFactory extends Factory
     public function definition(): array
     {
         return [
-            'date' => fake()->date(), // Data Fictícia
+            'date' => fake()->dateTimeThisMonth(), // Data Fictícia
             'idUser' => User::pluck('id')->random(), // User Aleatório
             'text' => fake()->text(255) // Texto Fictício até 255 caracteres
             //
