@@ -1,7 +1,5 @@
 @extends('layouts.app')
 
-{{-- @extends('layouts.template') --}}
-
 @section('content')
 {{-- @section('conteudo') --}}
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -9,17 +7,14 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <h5 class="card-header">Lista de Clientes</h5>
+                <h5 class="card-header">Messages</h5>
                     <div class="card-body">
-                        <h5 class="card-title">Aqui estão listados todos os clientes inseridos na BD.</h5>
-                        <p class="card-text">É possível: Mostrar, editar e eliminar informações de cada cliente.</p>
-                        <a href="{{route('cliente.create')}}" class="btn btn-primary">Inserir Novo Cliente</a>
-                        <a href="{{route('fatura.index')}}" class="btn btn-secondary">Faturas</a>
+                        <a href="{{route('message.create')}}" class="btn btn-primary">New Message</a>
                         <hr>
                         {{-- Barra de Pesquisa  --}}
                         <div class="container-fluid">
-                          <form class="d-flex" action="{{ route('cliente.search') }}" method="GET">
-                          <input class="form-control me-2" id="searchInput" name="search" type="search" placeholder="Pesquisar clientes..." aria-label="Search">
+                          <form class="d-flex" action="{{ route('message.search') }}" method="GET">
+                          <input class="form-control me-2" id="searchInput" name="search" type="search" placeholder="Search Messages..." aria-label="Search">
                             <button class="btn btn-primary" type="submit"> <i class="fa-solid fa-magnifying-glass"></i></button>
                           </form>
                         </div>
@@ -38,7 +33,7 @@
                     <script>
                          Swal.fire({
                              icon: 'success',
-                             title: 'Sucesso',
+                             title: 'Success',
                              text: '{{ session('alert') }}',
                              confirmButtonText: 'OK'
                          });
@@ -48,32 +43,32 @@
                     <table class="table table-striped table-hover table-borderless table-active-bg-factor">
                         <thead>
                           <tr>
-                            <th scope="col">ID Cliente</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Contacto</th>
-                            <th scope="col" colspan="3">Ações</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Message</th>
+                            <th scope="col" colspan="3">Action</th>
                           </tr>
                         </thead>
                         <tbody>
-                            @foreach ($clientes as $cliente)
+                            @foreach ($messages as $message)
 
                           <tr>
-                            <th scope="row">{{$cliente->id}}</th>
-                            <td>{{$cliente->nome}}</td>
-                            <td>{{$cliente->telefone}}</td>
+                            <th scope="row">{{$message->user->name ?? 'User not found!'}}</th>
+                            <td>{{$message->user->email ?? 'User not found!'}}</td>
+                            <td>{{$message->text}}</td>
                             <td>
                                 <div class="btn-group" role="group" aria-label="Ações">
                                     <!-- Link for "Mostrar" -->
-                                    <a href="{{ route('cliente.show', $cliente->id) }}" class="btn btn-link btn-sm mx-1" title="Mostrar"><i class="fas fa-eye"></i></a>
+                                    <a href="{{ route('message.show', $message->id) }}" class="btn btn-link btn-sm mx-1" title="Mostrar"><i class="fas fa-eye"></i></a>
 
                                     <!-- Link for "Editar" -->
-                                    <a href="{{ route('cliente.edit', $cliente->id) }}" class="btn btn-link btn-sm mx-1" title="Editar"><i class="fas fa-edit"></i></a>
+                                    <a href="{{ route('message.edit', $message->id) }}" class="btn btn-link btn-sm mx-1" title="Editar"><i class="fas fa-edit"></i></a>
 
                                     <!-- Form for "Eliminar" -->
-                                    <form action="{{ route('cliente.destroy', $cliente->id) }}" method="POST" style="display: inline-block;">
+                                    <form action="{{ route('message.destroy', $message->id) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-outline-danger btn-sm mx-1" title="Eliminar" type="submit" onclick="return confirm('Tem a certeza que deseja excluir o cliente {{$cliente->nome}}?')"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-outline-danger btn-sm mx-1" title="Eliminar" type="submit" onclick="return confirm('Tem a certeza que deseja excluir o cliente {{$message->id}}?')"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </div>
                             </td>
@@ -83,7 +78,7 @@
                       </table>
                       {{-- Botão para mudar de página --}}
                       <div class="pagination d-flex justify-content-center">
-                        {{$clientes->links('pagination::bootstrap-4'),}}
+                        {{$messages->links('pagination::bootstrap-4'),}}
                     </div>
                 </div>
             </div>

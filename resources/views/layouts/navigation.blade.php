@@ -14,7 +14,9 @@
                 <div class="hidden space-x-8 sm:-my-px sm:ms-10 sm:flex">
                     <x-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                         {{ __('Dashboard') }}
-                        <a href="{{ route('messages.index') }}" class="btn btn-lg btn-primary mx-1" title="Voltar"> Messages</a>
+                    </x-nav-link>
+                    <x-nav-link :href="route('message.index')" :active="request()->routeIs('message.index')">
+                        {{ __('Messages') }}
                     </x-nav-link>
                 </div>
             </div>
@@ -71,6 +73,7 @@
             <x-responsive-nav-link :href="route('dashboard')" :active="request()->routeIs('dashboard')">
                 {{ __('Dashboard') }}
             </x-responsive-nav-link>
+
         </div>
 
         <!-- Responsive Settings Options -->

@@ -19,12 +19,12 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resources([
-        'messages'=>MessageController::class,
+        'message'=>MessageController::class,
     ]);
 
     // Rota para exibir as pesquisas:
 
-    Route::get('/messages/search', [MessageController::class, 'search'])->name('message.search');
+    Route::get('/message/search', [MessageController::class, 'search'])->name('message.search');
 
 
 });

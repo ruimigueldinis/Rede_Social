@@ -13,7 +13,7 @@ class MessageController extends Controller
     public function index()
     {
         //
-        $messages=Message::paginate(10);
+        $messages=Message::with('user')->paginate(10);
         return view('messages.index',compact('messages'));
     }
 
