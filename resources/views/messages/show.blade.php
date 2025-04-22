@@ -20,18 +20,16 @@
                         <table class="table table-striped table-hover table-borderless table-active-bg-factor">
                             <thead>
                                 <tr>
-                                    <th>Nome</th>
-                                    <th>Mensagem</th>
+                                    <th>User</th>
+                                    <th>Message</th>
+                                    <th>Date</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 <tr>
-                                    <td><b>Data de Nascimento</b></td>
                                     <td>{{$message->user->name ?? 'User not found!'}}</td>
-                                </tr>
-                                <tr>
-                                    <td><b>Mensagem</b></td>
                                     <td>{{$message->text}}</td>
+                                    <td>{{$message->date}}</td>
                                 </tr>
                             </tbody>
                         </table>
@@ -41,7 +39,7 @@
                             <form action="{{ route('message.destroy', $message->id) }}" method="POST" style="display: inline-block;">
                                 @csrf
                                 @method('DELETE')
-                                <button class="btn btn-outline-danger btn-sm mx-1" title="Eliminar" type="submit" onclick="return confirm('Tem a certeza que deseja excluir o cliente {{$message->id}}?')"><i class="fas fa-trash"></i></button>
+                                <button class="btn btn-danger btn-lg mx-1" title="Eliminar" type="submit" onclick="return confirm('Tem a certeza que deseja excluir esta mensagem?')"><i class="fas fa-trash"></i></button>
                             </form>
                         </div>
                     </div>

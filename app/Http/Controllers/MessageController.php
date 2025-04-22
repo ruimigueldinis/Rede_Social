@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Models\Message;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class MessageController extends Controller
 {
@@ -23,6 +25,7 @@ class MessageController extends Controller
     public function create()
     {
         //
+        return view('messages.create');
     }
 
     /**
@@ -31,6 +34,17 @@ class MessageController extends Controller
     public function store(Request $request)
     {
         //
+        $request->validate([
+            'text' => 'required|string|max:255',
+        ]);
+
+        Message::create([
+            'idUser' => Auth::id(),
+            'text' => $request->text,
+            'date' => now(),
+        ]);
+
+        return redirect()->route('message.index')->with('status', 'Your message has been sent!');
     }
 
     /**
@@ -66,10 +80,8 @@ class MessageController extends Controller
     {
         //
         $message = Message::findOrFail($id);
-
         $message->delete();
-
-        return redirect()->route('message.index')->with('alert', 'Mensagem Removida!');
+        return redirect()->route('message.index')->with('alert', 'Message Removed!');
     }
 
     /**
