@@ -61,14 +61,11 @@
                                     <!-- Link for "Mostrar" -->
                                     <a href="{{ route('message.show', $message->id) }}" class="btn btn-link btn-sm mx-1" title="Mostrar"><i class="fas fa-eye"></i></a>
 
-                                    <!-- Link for "Editar" -->
-                                    <a href="{{ route('message.edit', $message->id) }}" class="btn btn-link btn-sm mx-1" title="Editar"><i class="fas fa-edit"></i></a>
-
                                     <!-- Form for "Eliminar" -->
                                     <form action="{{ route('message.destroy', $message->id) }}" method="POST" style="display: inline-block;">
                                         @csrf
                                         @method('DELETE')
-                                        <button class="btn btn-outline-danger btn-sm mx-1" title="Eliminar" type="submit" onclick="return confirm('Tem a certeza que deseja excluir o cliente {{$message->id}}?')"><i class="fas fa-trash"></i></button>
+                                        <button class="btn btn-outline-danger btn-sm mx-1" title="Eliminar" type="submit" onclick="return confirm('Tem a certeza que deseja excluir esta mensagem?')"><i class="fas fa-trash"></i></button>
                                     </form>
                                 </div>
                             </td>

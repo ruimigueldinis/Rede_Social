@@ -36,9 +36,11 @@ class MessageController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Message $message)
+    public function show($id)
     {
         //
+        $message = Message::with('user')->findorfail($id);
+        return view('messages.show',['message'=>$message]);
     }
 
     /**
@@ -60,8 +62,41 @@ class MessageController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Message $message)
+    public function destroy($id)
     {
         //
+        $message = Message::findOrFail($id);
+
+        $message->delete();
+
+        return redirect()->route('message.index')->with('alert', 'Mensagem Removida!');
     }
+
+    /**
+     * Search the specified resource from storage.
+     */
+    public function search(Request $request)
+    {   // objecto chama-se search, a barra de pesquisa.
+        $search = $request->input('search');
+
+        // Se o termo de pesquisa não for vazio
+        if ($search) {
+            $messages = Message::where('text', 'like', "%{$search}%") // Search for Text Message
+            ->orWhereHas('user', function ($query) use ($search) {
+                $query->where('name', 'like', "%{$search}%"); // Searches for Username
+            })->paginate(10);  // (10 per page)
+        } else {
+            // In case there is no elements returns the same page.
+            // I may implement here an alert to say that no "Search return = values with"
+            $messages = Message::paginate(10);
+        }
+
+        // Retorna a view com os fornecedores encontrados
+        return view('message.index', ['messages'=>$messages]);
+    }
+
+
+
+
+
 }
