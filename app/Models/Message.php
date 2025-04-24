@@ -12,7 +12,8 @@ class Message extends Model
     protected $fillable = [
         'date',
         'idUser',
-        'text'
+        'text',
+        'order' // Adicionado para mexer na ordem das mensagens
     ];
 
     //Adicionar relacionamentos, como associar uma Mensagem a um User!

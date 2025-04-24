@@ -14,8 +14,8 @@ class MessageController extends Controller
      */
     public function index()
     {
-        //
-        $messages=Message::with('user')->paginate(10);
+        // Adicionado o orderBy a coluna order!
+        $messages=Message::with('user')->orderBy('order')->paginate(10);
         return view('messages.index',compact('messages'));
     }
 
@@ -38,10 +38,16 @@ class MessageController extends Controller
             'text' => 'required|string|max:255',
         ]);
 
+        $maxOrder = Message::max('order');
+
+        // For the first value, there is 0
+        $nextOrder = $maxOrder ? $maxOrder + 1 : 0;
+
         Message::create([
             'idUser' => Auth::id(),
             'text' => $request->text,
             'date' => now(),
+            'order' => $nextOrder,
         ]);
 
         return redirect()->route('message.index')->with('status', 'Your message has been sent!');
@@ -106,6 +112,45 @@ class MessageController extends Controller
         // Retorna a view com os fornecedores encontrados
         return view('message.index', ['messages'=>$messages]);
     }
+
+    // Método para mover a mensagem para cima
+    public function moveUp($id)
+    {
+        $message = Message::findOrFail($id);
+        $previous = Message::where('order', '<', $message->order)->orderBy('order', 'desc')->first();
+
+        if ($previous) {
+            $this->swapOrder($message, $previous);
+        }
+
+        return redirect()->route('message.index');
+    }
+
+    // Método para mover a mensagem para baixo
+    public function moveDown($id)
+    {
+        $message = Message::findOrFail($id);
+        $next = Message::where('order', '>', $message->order)->orderBy('order')->first();
+
+        if ($next) {
+            $this->swapOrder($message, $next);
+        }
+
+        return redirect()->route('message.index');
+    }
+
+    // Método para trocar a ordem entre duas mensagens
+    private function swapOrder($a, $b)
+    {
+        $temp = $a->order;
+        $a->order = $b->order;
+        $b->order = $temp;
+
+        $a->save();
+        $b->save();
+    }
+
+
 
 
 

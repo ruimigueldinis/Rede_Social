@@ -19,14 +19,15 @@ Route::middleware('auth')->group(function () {
 
 
     Route::resources([
-        'message'=>MessageController::class,
+        'message' => MessageController::class,
     ]);
+
+    Route::post('/messages/{id}/move-up', [MessageController::class, 'moveUp'])->name('message.move-up');
+    Route::post('/messages/{id}/move-down', [MessageController::class, 'moveDown'])->name('message.move-down');
 
     // Rota para exibir as pesquisas:
 
     Route::get('/message/search', [MessageController::class, 'search'])->name('message.search');
-
-
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
